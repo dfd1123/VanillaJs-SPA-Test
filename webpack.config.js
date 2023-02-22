@@ -1,0 +1,101 @@
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const webpackMode = process.env.NODE_ENV || 'development';
+
+module.exports = {
+	mode: webpackMode,
+	entry: {
+		main: './src/main.js',
+	},
+	resolve: {
+        extensions: [".ts", ".js", ".jsx", ".tsx"],
+		alias: {
+            '@': path.resolve(__dirname, './src'),
+			'@components': path.resolve(__dirname, './src/views/components'),
+			'@pages': path.resolve(__dirname, './src/views/pages'),
+        },
+    },
+	output: {
+		path: path.resolve('./dist'),
+		filename: '[name].min.js'
+	},
+	devServer: {
+		// contentBase: path.join(__dirname, "./public"),
+		hot: true,  
+		port: 9000,
+		historyApiFallback: true,
+	},
+	optimization: {
+		minimizer: webpackMode === 'production' ? [
+			new TerserPlugin({
+				terserOptions: {
+					compress: {
+						drop_console: true
+					}
+				}
+			})
+		] : [],
+		splitChunks: {
+			chunks: 'all'
+		}
+	},
+	module: {
+		rules: [
+			{
+				test : /\.js$/,
+				loader: 'babel-loader',
+				exclude: /node_modules/,
+			},
+			{
+				test: /\.(ts|js)x?$/,
+				enforce: 'pre',
+				use: ['source-map-loader'],
+			},
+			{
+                test: /\.(ts|js)x?$/,
+                use: "ts-loader",
+                exclude: /node_modules/,
+            },
+			{
+				test: /\.(sa|sc|c)ss$/,
+				use: [
+				  MiniCssExtractPlugin.loader,
+				  {
+					loader: "css-loader",
+					options: {
+					  sourceMap: true,
+					  importLoaders: 1,
+					},
+				  },
+				  {
+					loader: "sass-loader",
+					options: {
+					  additionalData: `@import "@/style/var.scss";`,
+					  sourceMap: true,
+					},
+				  },
+				],
+			  },
+		]
+	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: './public/index.html',
+			minify: process.env.NODE_ENV === 'production' ? {
+				collapseWhitespace: true,
+				removeComments: true,
+			} : false
+		}),
+		new MiniCssExtractPlugin({
+		  filename: "styles.css",
+		}),
+		new CleanWebpackPlugin({
+			cleanAfterEveryBuildPatterns: ["dist", "public"],
+		  }),
+	]
+};

@@ -1,0 +1,9 @@
+[Button]{
+    overflow: hidden;
+    button{
+        font-size: 14px;
+        color: white;
+        border: transparent;
+        background: map-get($indigoVivid, 500);
+    }
+}

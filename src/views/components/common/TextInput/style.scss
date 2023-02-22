@@ -1,0 +1,18 @@
+[TextInput]{
+    height: 40px;
+    border-radius: 4px;
+    input{
+        width: 100%;
+        height: inherit;
+        padding: 0 12px;
+        outline: none;
+        border-radius: inherit;
+        border: 1px solid #ddd;
+        box-shadow: none;
+        transition: border 0.2s;
+
+        &:focus{
+            border-color: map-get($indigoVivid, 500);
+        }
+    }
+}

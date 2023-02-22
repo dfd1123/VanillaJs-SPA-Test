@@ -1,0 +1,50 @@
+[ToggleButton] {
+    .label{
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 8px;
+        font-size: 14px;
+    }
+    .switch{
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 40px;
+        height: 20px;
+        background-color: map-get($indigoNatural, 80);
+        cursor: pointer;
+        border-radius: 50px;
+        box-sizing: border-box;
+
+        .on-off {
+            position: absolute;
+            left:0;
+            top:0;
+            z-index: 1;
+            width: 50%;
+            border-color: transparent;
+            border-radius: 20px; 
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); 
+            transition: 0.4s; 
+
+            &::before { 
+                content: '';
+                display: block;
+                padding-bottom: 100%;
+                background-color: white;
+                border-radius: 20px;
+                transition: 0.4s;
+            }
+          }
+    }
+
+    input { width: 0; height: 0; opacity: 0; display: none;
+        &:checked {
+            + .switch {
+                background-color: map-get($indigoNatural, 300);
+                .on-off { transform: translateX(calc(100% + 1px)); transition: 0.4s; }
+            }
+        }
+    }
+
+}

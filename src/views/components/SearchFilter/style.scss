@@ -1,0 +1,35 @@
+[SearchFilter]{
+    margin: 16px 0 32px;
+    [TextInput]{
+        margin: 16px 0;
+    }
+
+    .filter-area{
+        display: flex;
+        justify-content: space-between;
+        .toggle-switch-cont{
+            display: flex; 
+            align-items: center;
+            column-gap: 16px;
+        }
+
+        .btn-reset{
+            button{
+                width: 80px;
+                height: 32px;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    @media(max-width: 600px) {
+        margin: 16px 0 16px;
+        .filter-area{
+            display: block;
+            .btn-reset{
+                margin-top: 16px;
+                text-align: right;
+            }
+        }
+    }
+}
