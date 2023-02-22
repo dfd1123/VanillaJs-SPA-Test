@@ -26,7 +26,7 @@ export default class InfiniteScroll extends Component {
 
         if(!window.infiniteScrollIo){
             window.infiniteScrollIo = new IntersectionObserver(
-                (entries, observer) => {
+                (entries) => {
 
                   if (entries[0].isIntersecting) {
                     this.#firstLoaded = true;
