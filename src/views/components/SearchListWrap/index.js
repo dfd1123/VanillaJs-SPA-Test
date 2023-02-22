@@ -4,11 +4,12 @@ import ListItem from "@components/ListItem";
 import SearchFilter from "@components/SearchFilter";
 import InfiniteScroll from "@components/common/InfiniteScroll";
 import services from '@/services';
+import Loading from '../common/Loading';
 
 export default class SearchListWrap extends Component{
     setup(){
         this.$state = {
-            list: [],
+            list: null,
             showList: [],
             hasNext: true,
             searchParams: {
@@ -25,14 +26,20 @@ export default class SearchListWrap extends Component{
     templete(){
         return `
             <div SearchFilter></div>
-            <ul class="list-cont">
-                ${this.$state.showList.map(item => `<li ListItem key="${item.url}"></li>`).join('')}
-            </ul>\
+            ${this.$state.list ? `
+                <ul class="list-cont">
+                    ${this.$state.showList.map(item => `<li ListItem key="${item.url}"></li>`).join('')}
+                </ul>
+            ` : `
+                <div Loading></div>
+            `}
             <div InfiniteScroll></div>
         ` 
     }
 
     componentDidMount(){
+        this.addComponent(Loading);
+
         this.addComponent(SearchFilter, {
             searchParams: this.$state.searchParams,
             handleSearchParamsChange: (params) => this.handleSearchParamsChange(params),
@@ -73,15 +80,7 @@ export default class SearchListWrap extends Component{
     }
 
     resetList(){
-        this.setState({
-            ...this.$state,
-            searchParams: {
-                name: undefined, 
-                isAlive: false,
-                noTvSeries: false,
-            },
-            showList: this.$state.list,
-        });
+        this.getList({name: undefined, isAlive: false, noTvSeries: false}, false)
     }
 
     hideItem(item) {
