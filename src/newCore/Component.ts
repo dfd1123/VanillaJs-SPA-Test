@@ -1,3 +1,5 @@
+import { updateElement } from "./updateElement";
+import { adjustChildComponents } from "./adjustChildComponent";
 import { observable } from "./observer";
 
 interface StateType {
@@ -9,9 +11,12 @@ type TTT<T extends () => StateType> = ReturnType<T>
 export default class Component<S extends StateType = StateType, P extends StateType = StateType> {
     private props: P;
     public state: TTT<this['data']>;
+    public childComponents: {[key: string]: Component};
+    private isMounted = false;
+    private reqAnimationId = 0;
 
 
-    constructor(public target: HTMLElement, private getProps?: () => P){
+    constructor(public target: HTMLElement, private getProps?: P){
         this.updateProps();
         this.initState(this.data());
         
@@ -26,7 +31,7 @@ export default class Component<S extends StateType = StateType, P extends StateT
     data(): StateType { return {} ; }
 
     updateProps(){
-        this.props = this.getProps ? this.getProps() : {} as P;
+        this.props = this.getProps || {} as P;
     }
 
     initState(newState: StateType){
@@ -44,16 +49,23 @@ export default class Component<S extends StateType = StateType, P extends StateT
     }
 
     render() {
-        this.target.innerHTML = this.template();
+        const { target } = this;
+        const newNode = target.cloneNode(true) as Element;
+        newNode.innerHTML = this.template();
 
-        this.setEvent();
+        let childComponentData: {[key: string]: string} = {};
+        const oldChildNodes = [...target.childNodes] as Element[];
+        const newChildNodes = [...newNode.childNodes] as Element[];
+        const maxLength = Math.max(oldChildNodes.length, newChildNodes.length);
+        for (let i = 0; i < maxLength; i++) {
+            console.log( newChildNodes[i]);
+            childComponentData = { ...childComponentData, ...updateElement(target, newChildNodes[i], oldChildNodes[i]) };
+        }
+
+        adjustChildComponents(this, childComponentData);
     }
 
-    addComponent(component: Component, key?: string | number) {
-        const componentName = component.constructor.name;
-
-        const el = 
-    }
+    generateChildComponent(target: HTMLElement, name: string, key: string): Component | undefined { return undefined };
 
     setEvent(){
 
@@ -62,5 +74,19 @@ export default class Component<S extends StateType = StateType, P extends StateT
     addEvent(eventName: string, selector: string, func: (this: Element, ev: Event) => any, options?: boolean | AddEventListenerOptions) {
         this.target.querySelector(selector).removeEventListener(eventName, func, options);
         this.target.querySelector(selector).addEventListener(eventName, func, options);
+    }
+
+    update(newTarget: HTMLElement): void {
+        if (newTarget && newTarget !== this.target) {
+          this.target = newTarget;
+          this.setEvent();
+        }
+    
+        if (!this.isMounted) {
+          this.render();
+        } else {
+          cancelAnimationFrame(this.reqAnimationId);
+          this.reqAnimationId = requestAnimationFrame(this.render.bind(this));
+        }
       }
 }  

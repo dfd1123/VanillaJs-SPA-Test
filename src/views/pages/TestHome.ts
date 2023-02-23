@@ -1,4 +1,5 @@
 import Component from "../../newCore/Component";
+import TestListItem from "../components/TestListItem";
 
 export default class TestHome extends Component {
     data(){
@@ -9,7 +10,15 @@ export default class TestHome extends Component {
 
     template(){
         return `
-            <div>${this.state.list.map(item => item).join('')}</div>
+            ${this.state.list.map(item => `<div key="${item}" TestListItem>${item}</div>`).join('')}
         `
+    }
+
+    generateChildComponent(target: HTMLElement, name: string) {
+        if(name === 'TestListItem'){
+            return new TestListItem(target, {
+                list: this.state.list,
+            })
+        }
     }
 }
