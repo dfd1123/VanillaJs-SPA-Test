@@ -65,6 +65,8 @@ export default class Component {
         updateComponent();
       }
     }
+
+    console.log(this.components);
   }
 
   addEvent(eventName, selector, func, option) {
