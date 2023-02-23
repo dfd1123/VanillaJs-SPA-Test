@@ -9,7 +9,7 @@ export default class TestHome extends Component {
 
     template(){
         return `
-            ${this.state.list.map(item => item)}<div></div>
+            <div>${this.state.list.map(item => item).join('')}</div>
         `
     }
 }
