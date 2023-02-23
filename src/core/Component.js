@@ -66,7 +66,6 @@ export default class Component {
       }
     }
 
-    console.log(this.components);
   }
 
   addEvent(eventName, selector, func, option) {

@@ -1,6 +1,8 @@
 import "./style/style.scss";
-import Home from "./views/pages/Home.js";
-import TestHome from "./views/pages/TestHome";
+import {Route} from './router';
+import routes from './router/routes';
+import App from "./App.js";
 
-/* index.html의 div에 App컴포넌트 마운트 */
-new TestHome(document.querySelector('#app')); 
+new Route(routes).init();
+
+new App(document.querySelector('#app')); 

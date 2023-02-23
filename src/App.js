@@ -1,18 +1,14 @@
 import Component from './core/Component';
+import { RouterView } from './router';
 
 export default class App extends Component {
-  setup() {
-    this.$state = {
-      data1 : ['awdawdwadawd', 'item2'],
-      data2 : []
-    }
+  componentDidMount(){
+    this.addComponent(RouterView);
   }
-    templete() {
-      let {data1, data2} = this.$state;
-      return`
-        <div>
-        
-        </div>
-	  `
-    }
+
+  template() {
+    return`
+        <div RouterView></div>
+    `
+  }
 }

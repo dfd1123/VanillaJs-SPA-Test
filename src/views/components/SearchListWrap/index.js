@@ -1,14 +1,18 @@
 import './style.scss';
-import Component from "@/core/Component"
+import Component from "@/core/Component";
 import ListItem from "@components/ListItem";
 import SearchFilter from "@components/SearchFilter";
 import InfiniteScroll from "@components/common/InfiniteScroll";
+import Loading from '@components/common/Loading';
 import services from '@/services';
-import Loading from '../common/Loading';
+import route from '@/router';
 
 export default class SearchListWrap extends Component{
     setup(){
+        const {page = 1} = route.getQuerys();
+
         this.$state = {
+            initPage: Number(page),
             list: null,
             showList: [],
             hasNext: true,
@@ -16,11 +20,11 @@ export default class SearchListWrap extends Component{
                 name: undefined, 
                 isAlive: false,
                 noTvSeries: false,
-                page: 1,
+                page: Number(page),
             }
         };
 
-        this.getList(this.$state.searchParams, false);
+        this.getList(this.$state.searchParams, true);
     }
 
     template(){
@@ -63,7 +67,7 @@ export default class SearchListWrap extends Component{
     async getList(params, more = false){
         const {character} = services;
 
-        const searchParams = more ? params : {...params, page: 1}
+        const searchParams = more ? params : {...params, page: this.$state.initPage}
 
         const list =( await character.getCharacter(searchParams)).map(item => ({...item, tvSeries: item.tvSeries.filter(tvs => !!tvs)}));
         let newList = more ? [...this.$state.showList, ...list] : list;
