@@ -1,19 +1,22 @@
 import { updateElement } from "./updateElement";
 import { adjustChildComponents } from "./adjustChildComponent";
-import { observable } from "./observer";
+import { observable, observe } from "./observer";
 
 interface StateType {
     [key: string]: any;
 }
 
 interface EventListenerParams {
+    target: HTMLElement;
     eventName: string; 
     func: (this: Element, ev: Event) => any; 
-    options?: boolean | AddEventListenerOptions;
 }
 
+let uid = 1;
+
 export default class Component<S extends StateType = StateType, P extends StateType = StateType> {
-    private props: P;
+    public _uid;
+    public props: P;
     public state: ReturnType<this['data']>;
     public childComponents: {[key: string]: Component};
     private isMounted = false;
@@ -22,11 +25,11 @@ export default class Component<S extends StateType = StateType, P extends StateT
 
 
     constructor(public target: HTMLElement, private getProps?: P){
+        this._uid = uid++;
         this.updateProps();
         this.initState(this.data());
-        
-        this.render();
-        this.setEvent();
+
+        observe(this.update.bind(this));
     }
 
     template(){
@@ -43,7 +46,7 @@ export default class Component<S extends StateType = StateType, P extends StateT
         this.state = observable(newState) as any; 
     }
 
-    setState(newPartialState: Partial<ReturnType<this['data']>>) {
+    setState(newPartialState: ReturnType<this['data']>) {
         for (const [key, value] of Object.entries(newPartialState)) {
             if (this.state.hasOwnProperty(key)) {
                 this.state[key as keyof typeof newPartialState] = value;
@@ -62,8 +65,8 @@ export default class Component<S extends StateType = StateType, P extends StateT
         const oldChildNodes = [...target.childNodes] as Element[];
         const newChildNodes = [...newNode.childNodes] as Element[];
         const maxLength = Math.max(oldChildNodes.length, newChildNodes.length);
+
         for (let i = 0; i < maxLength; i++) {
-            console.log( newChildNodes[i]);
             childComponentData = { ...childComponentData, ...updateElement(target, newChildNodes[i], oldChildNodes[i]) };
         }
 
@@ -79,27 +82,34 @@ export default class Component<S extends StateType = StateType, P extends StateT
     update(newTarget: HTMLElement): void {
         if (newTarget && newTarget !== this.target) {
           this.target = newTarget;
-          this.setEvent();
+        //   this.setEvent();
         }
     
         if (!this.isMounted) {
-          this.render();
+          this.lifeCycle();
         } else {
           cancelAnimationFrame(this.reqAnimationId);
           this.reqAnimationId = requestAnimationFrame(this.render.bind(this));
         }
     }
 
-    addEvent(eventName: string, selector: string, func: (this: Element, ev: Event) => any, options?: boolean | AddEventListenerOptions) {
-        this.target.querySelector(selector).removeEventListener(eventName, func, options);
-        this.eventListenerList.push({eventName, func, options})
+    addEvent(eventName: string, selector: string, func: (e: Event) => any) {
+        const listener = (e: Event) => {
+            if ((e.target as HTMLElement).closest(selector)) func(e);
+          };
+          this.target.removeEventListener(eventName, listener);
+          this.target.addEventListener(eventName, listener);
+        this.eventListenerList.push({target: this.target, eventName, func});
     }
 
     removeAllEventListener(){
         for(let i = 0; i < this.eventListenerList.length; i++){
-            const {eventName, func, options} = this.eventListenerList.pop();
-            this.target.removeEventListener(eventName, func, options);
+            const {target, eventName, func} = this.eventListenerList[i];
+            target.removeEventListener(eventName, func);
+            this.target.removeEventListener(eventName, func);
         }
+
+        this.eventListenerList = [];
     }
 
     lifeCycle(): void {
@@ -107,8 +117,9 @@ export default class Component<S extends StateType = StateType, P extends StateT
         this.isMounted && this.updateProps();
         this.render();
         this.isMounted && this.updated && this.updated();
-    
+
         if (!this.isMounted) {
+            console.log(this.isMounted);
           setTimeout(() => {
             this.setEvent();
             this.isMounted = true;
@@ -119,6 +130,7 @@ export default class Component<S extends StateType = StateType, P extends StateT
 
     destroyComponent(): void {
         const childComponents = Object.values(this.childComponents);
+        console.log('dd', childComponents);
         for (let childComponent of childComponents) {
           childComponent.destroyComponent();
         }

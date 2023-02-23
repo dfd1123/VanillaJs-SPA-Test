@@ -1,35 +1,36 @@
-import Component from "@/core/Component";
+import Component from "@/newCore/Component";
 
 export default class InfiniteScroll extends Component {
-    #firstLoaded = false;
-
-    setup(){
-        this.initIo();
-    }
-
-    componentDidMount() {
-        if(!this.$props.stop){
-            window.infiniteScrollIo.observe(this.$target);   
-        }else{
-            window.infiniteScrollIo.unobserve(this.$target);
+    data(){
+        return {
+            firstLoaded: false
         }
     }
 
-    templete(){
+    mounted(){
+        this.initIo();
+        window.infiniteScrollIo.observe(this.target);   
+    }
+
+    beforeDestroy() {
+        window.infiniteScrollIo.unobserve(this.target);
+    }
+
+    template(){
         return `
             <div></div>
         `
     }
 
     initIo(){
-        this.$target.setAttribute('style', 'width: 100%; min-height: 2px;');
+        this.target.setAttribute('style', 'width: 100%; min-height: 2px;');
 
         if(!window.infiniteScrollIo){
             window.infiniteScrollIo = new IntersectionObserver(
                 (entries) => {
 
                   if (entries[0].isIntersecting) {
-                    this.#firstLoaded = true;
+                    this.state.firstLoaded = true;
                     this.moreLoad();
                   }
                 },
@@ -43,6 +44,6 @@ export default class InfiniteScroll extends Component {
     }
 
     moreLoad(){
-        if(this.#firstLoaded) this.$props.moreLoad();
+        if(this.state.firstLoaded) this.props.moreLoad();
     }
 }

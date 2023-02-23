@@ -1,22 +1,22 @@
 import "./style.scss";
-import Component from "@/core/Component";
+import Component from "@/newCore/Component";
 
 export default class TextInput extends Component {
-    setup(){
-        this.$state = {
-            text: this.$props.value,
+    data(){
+        return {
+            text: this.props.value,
         }
     }
 
-    templete(){
-        const {type = "text", placeholder = ''} = this.$props;
+    template(){
+        const {type = "text", placeholder = ''} = this.props;
         return `
             <input type="${type}" placeholder="${placeholder}" />
         `;
     }
 
     setEvent(){
-        const {onInput, onChange, onEnter} = this.$props;
+        const {onInput, onChange, onEnter} = this.props;
 
         this.addEvent('input', 'input', (e) => {
             onInput && onInput(e);
@@ -26,7 +26,7 @@ export default class TextInput extends Component {
             onChange && onChange(e);
         })
 
-        this.addEvent('keydown', 'input', (e) => {
+        this.addEvent('keydown', 'input', (e: KeyboardEvent) => {
             if(e.keyCode === 13){
                 onEnter && onEnter(e);
             }

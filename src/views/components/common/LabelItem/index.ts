@@ -1,9 +1,9 @@
 import "./style.scss";
-import Component from "@/core/Component";
+import Component from "@/newCore/Component";
 
 export default class LabelItem extends Component {
-    templete(){
-        const {label = 'label', value = ""} = this.$props;
+    template(){
+        const {label = 'label', value = ""} = this.props.info;
         
         return `
             <span class="label">${label} :</span>

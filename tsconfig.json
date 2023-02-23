@@ -1,6 +1,11 @@
 {
     "compilerOptions": {
         "outDir": "./dist/",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@components/*": ["./src/views/components/*"],
+            "@pages/*": ["./src/views/pages/*"],
+          },
         "sourceMap": true,
         "moduleResolution": "node",
         "noImplicitAny": true,

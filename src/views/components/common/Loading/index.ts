@@ -1,8 +1,8 @@
 import "./style.scss";
-import Component from "@/core/Component";
+import Component from "@/newCore/Component";
 
 export default class Loading extends Component {
-    templete(){
+    template(){
         return `
             <div class="loader">
                 <svg class="circular-loader" viewBox="25 25 50 50">

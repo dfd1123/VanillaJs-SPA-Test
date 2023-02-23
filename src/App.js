@@ -7,7 +7,7 @@ export default class App extends Component {
       data2 : []
     }
   }
-    templete() {
+    template() {
       let {data1, data2} = this.$state;
       return`
         <div>
