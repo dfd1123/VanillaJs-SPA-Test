@@ -8,6 +8,23 @@ html, body{ margin: 0; box-sizing: border-box; }
     padding: 20px 12px;
 }
 
+#all-loading{
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index: 9999;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    background-color: rgba(0,0,0,0.3);
+    
+    .loader-path{
+        stroke: white !important;
+    }
+}
+
 
 @media(max-width: 600px) {
     #app{

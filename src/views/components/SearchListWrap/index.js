@@ -65,13 +65,18 @@ export default class SearchListWrap extends Component{
     }
 
     async getList(params, more = false){
-        const {character} = services;
+        const {character, loadingModal} = services;
 
         const searchParams = more ? params : {...params, page: this.$state.initPage}
+
+        if(this.$state.list) loadingModal.open(); 
+
 
         const list =( await character.getCharacter(searchParams)).map(item => ({...item, tvSeries: item.tvSeries.filter(tvs => !!tvs)}));
         let newList = more ? [...this.$state.showList, ...list] : list;
         newList = newList.filter(item => searchParams.noTvSeries ? item.tvSeries.length === 0 : true);
+
+        loadingModal.close(); 
 
 
         this.setState({

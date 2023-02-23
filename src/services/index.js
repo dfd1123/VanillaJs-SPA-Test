@@ -1,3 +1,4 @@
+import { store } from '@/store';
 import ApiConnection from "@/api/ApiConnection";
 import CommonApiHandler from "@/api/handlers/CommonApiHandler";
 import CharacterService from "./CharacterService";
@@ -15,6 +16,13 @@ class Service {
         const api = new ApiConnection('https://www.anapioficeandfire.com/api', this.#apiHandler.common);
         
         return new CharacterService(api);
+    }
+
+    get loadingModal(){
+        const setStatus = (status = false) => {
+            store().commit('SET_LOADING', status);
+        }
+        return {open: () => setStatus(true), close: () => setStatus(false)}
     }
 }
 

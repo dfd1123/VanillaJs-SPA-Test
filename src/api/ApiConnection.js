@@ -1,5 +1,17 @@
 import axios from 'axios';
-import qs from 'qs';
+
+function objectToQueryString(obj) {
+  const keyValuePairs = [];
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = encodeURIComponent(obj[key]);
+      keyValuePairs.push(`${key}=${value}`);
+    }
+  }
+
+  return keyValuePairs.join('&');
+}
 
 export default class ApiConnection {
   #axios;
@@ -12,7 +24,7 @@ export default class ApiConnection {
   }
 
   get(path, params, config) {
-    const uri = `${path}?${qs.stringify(params)}`;
+    const uri = `${path}?${objectToQueryString(params)}`;
     return this.#responseHandler(this.#axios.get(path, {...config, params}));
   }
 
