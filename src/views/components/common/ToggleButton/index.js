@@ -8,7 +8,7 @@ export default class ToggleButton extends Component {
         }
     }
 
-    templete(){
+    template(){
         const {label, value} = this.$props;
         
         return `

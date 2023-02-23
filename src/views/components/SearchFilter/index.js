@@ -5,7 +5,7 @@ import Button from '@components/common/Button/index';
 
 
 export default class SearchFilter extends Component{
-    templete(){
+    template(){
         return `
             <div class="filter-area">
                 <div class="toggle-switch-cont">
@@ -20,10 +20,6 @@ export default class SearchFilter extends Component{
 
     componentDidMount(){
         const {searchParams} = this.$props;
-        // this.addComponent(TextInput, {
-        //     value: '',
-        //     placeholder: '타이틀을 입력해주세요.'
-        // });
 
         this.addComponent(ToggleButton, {
             value: !!searchParams.isAlive,

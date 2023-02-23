@@ -19,7 +19,7 @@ export default class ListItem extends Component{
         }
     }
 
-    templete(){
+    template(){
         return `
             <div class="info-area">
                 <div class="top-info">

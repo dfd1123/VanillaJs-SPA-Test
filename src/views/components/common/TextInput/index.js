@@ -8,7 +8,7 @@ export default class TextInput extends Component {
         }
     }
 
-    templete(){
+    template(){
         const {type = "text", placeholder = ''} = this.$props;
         return `
             <input type="${type}" placeholder="${placeholder}" />

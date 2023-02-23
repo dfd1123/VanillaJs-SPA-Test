@@ -2,7 +2,7 @@ import "./style.scss";
 import Component from "@/core/Component";
 
 export default class Button extends Component {
-    templete(){
+    template(){
         const {type = 'button', text = ''} = this.$props;
         return `
             <button type="${type}">${text}</button>

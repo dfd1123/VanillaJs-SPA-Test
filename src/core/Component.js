@@ -19,7 +19,7 @@ export default class Component {
   }
 
   setup() {};
-  templete() {
+  template() {
     throw new Error("추상 메소드는 꼭 오버라이딩 되어야 합니다.");
   }; // 렌더링 할 HTML 반환
   componentDidMount() {}; // 렌더링 직후 수행해야 할 로직
@@ -27,7 +27,7 @@ export default class Component {
 
   render() {
       const newNode = this.$target.cloneNode(true);
-      newNode.innerHTML = this.templete();
+      newNode.innerHTML = this.template();
 
       const oldChildNodes = [ ...this.$target.childNodes ];
       const newChildNodes = [ ...newNode.childNodes ];

@@ -23,7 +23,7 @@ export default class SearchListWrap extends Component{
         this.getList(this.$state.searchParams, false);
     }
 
-    templete(){
+    template(){
         return `
             <div SearchFilter></div>
             ${this.$state.list ? `

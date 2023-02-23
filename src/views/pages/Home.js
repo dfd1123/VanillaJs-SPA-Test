@@ -5,12 +5,11 @@ import SearchListWrap from "@components/SearchListWrap";
 export default class Home extends Component {
     setup(){
         this.$state = {
-            title: 'Tl;qkf',
-            list: [1,2,3,4,5,6,7,8,9]
+            title: 'Practice',
         }
     }
 
-    templete(){
+    template(){
         return `
             <div>
                 <div Title></div>

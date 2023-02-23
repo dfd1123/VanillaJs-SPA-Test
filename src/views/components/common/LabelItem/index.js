@@ -2,7 +2,7 @@ import "./style.scss";
 import Component from "@/core/Component";
 
 export default class LabelItem extends Component {
-    templete(){
+    template(){
         const {label = 'label', value = ""} = this.$props;
         
         return `
