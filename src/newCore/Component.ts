@@ -6,14 +6,19 @@ interface StateType {
     [key: string]: any;
 }
 
-type TTT<T extends () => StateType> = ReturnType<T>
+interface EventListenerParams {
+    eventName: string; 
+    func: (this: Element, ev: Event) => any; 
+    options?: boolean | AddEventListenerOptions;
+}
 
 export default class Component<S extends StateType = StateType, P extends StateType = StateType> {
     private props: P;
-    public state: TTT<this['data']>;
+    public state: ReturnType<this['data']>;
     public childComponents: {[key: string]: Component};
     private isMounted = false;
     private reqAnimationId = 0;
+    private eventListenerList: EventListenerParams[] = [];
 
 
     constructor(public target: HTMLElement, private getProps?: P){
@@ -38,7 +43,7 @@ export default class Component<S extends StateType = StateType, P extends StateT
         this.state = observable(newState) as any; 
     }
 
-    setState(newPartialState: Partial<TTT<this['data']>>) {
+    setState(newPartialState: Partial<ReturnType<this['data']>>) {
         for (const [key, value] of Object.entries(newPartialState)) {
             if (this.state.hasOwnProperty(key)) {
                 this.state[key as keyof typeof newPartialState] = value;
@@ -70,11 +75,6 @@ export default class Component<S extends StateType = StateType, P extends StateT
     setEvent(){
 
     }
-    
-    addEvent(eventName: string, selector: string, func: (this: Element, ev: Event) => any, options?: boolean | AddEventListenerOptions) {
-        this.target.querySelector(selector).removeEventListener(eventName, func, options);
-        this.target.querySelector(selector).addEventListener(eventName, func, options);
-    }
 
     update(newTarget: HTMLElement): void {
         if (newTarget && newTarget !== this.target) {
@@ -88,5 +88,46 @@ export default class Component<S extends StateType = StateType, P extends StateT
           cancelAnimationFrame(this.reqAnimationId);
           this.reqAnimationId = requestAnimationFrame(this.render.bind(this));
         }
+    }
+
+    addEvent(eventName: string, selector: string, func: (this: Element, ev: Event) => any, options?: boolean | AddEventListenerOptions) {
+        this.target.querySelector(selector).removeEventListener(eventName, func, options);
+        this.eventListenerList.push({eventName, func, options})
+    }
+
+    removeAllEventListener(){
+        for(let i = 0; i < this.eventListenerList.length; i++){
+            const {eventName, func, options} = this.eventListenerList.pop();
+            this.target.removeEventListener(eventName, func, options);
+        }
+    }
+
+    lifeCycle(): void {
+        this.isMounted && this.beforeUpdate && this.beforeUpdate();
+        this.isMounted && this.updateProps();
+        this.render();
+        this.isMounted && this.updated && this.updated();
+    
+        if (!this.isMounted) {
+          setTimeout(() => {
+            this.setEvent();
+            this.isMounted = true;
+            this.mounted && this.mounted();
+          }, 0);
+        }
+    }
+
+    destroyComponent(): void {
+        const childComponents = Object.values(this.childComponents);
+        for (let childComponent of childComponents) {
+          childComponent.destroyComponent();
+        }
+        this.beforeDestroy && this.beforeDestroy();
+        this.removeAllEventListener();
       }
+
+    beforeUpdate(){ } // beforeUpdate
+    updated(){ } // updated
+    mounted(){ } // mounted
+    beforeDestroy() { } // beforeDestroy
 }  
