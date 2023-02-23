@@ -16,6 +16,7 @@ export default class Component<S extends StateType = StateType, P extends StateT
         this.initState(this.data());
         
         this.render();
+        this.setEvent();
     }
 
     template(){
@@ -44,7 +45,22 @@ export default class Component<S extends StateType = StateType, P extends StateT
 
     render() {
         this.target.innerHTML = this.template();
-      }
-    
 
+        this.setEvent();
+    }
+
+    addComponent(component: Component, key?: string | number) {
+        const componentName = component.constructor.name;
+
+        const el = 
+    }
+
+    setEvent(){
+
+    }
+    
+    addEvent(eventName: string, selector: string, func: (this: Element, ev: Event) => any, options?: boolean | AddEventListenerOptions) {
+        this.target.querySelector(selector).removeEventListener(eventName, func, options);
+        this.target.querySelector(selector).addEventListener(eventName, func, options);
+      }
 }  
