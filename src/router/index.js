@@ -36,6 +36,8 @@ export class Route {
 
         let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
 
+        // console.log(math.route);
+
         if (!match) {
             match = {
                 route: {
@@ -44,6 +46,8 @@ export class Route {
                 },
                 result: [location.pathname]
             }
+
+            // return this.navigateTo(match.route.path);
         }else if(match.route.redirect){
             return this.navigateTo(match.route.redirect);
         }
