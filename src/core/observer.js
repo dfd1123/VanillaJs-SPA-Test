@@ -1,27 +1,30 @@
 let currentObserver = null;
+// 바뀐 부분
+export const setCurrentObserver = observer => {
+  currentObserver = observer;
+};
 
-export const observe = fn => {
-  currentObserver = fn;
-  fn();
-  currentObserver = null;
-}
+export const observable = target => {
+  Object.keys(target).forEach(key => {
+    let cache = target[key];
 
-export const observable = obj => {
-  Object.keys(obj).forEach(key => {
-    let _value = obj[key];
-    const observers = new Set();
+    const observers = {};
 
-    Object.defineProperty(obj, key, {
-      get () {
-        if (currentObserver) observers.add(currentObserver);
-        return _value;
+    Object.defineProperty(target, key, {
+      get() {
+        // 바뀐 부분
+        if (currentObserver) {
+          observers[currentObserver.constructor.name] = currentObserver;
+        }
+
+        return cache;
       },
+      set(value) {
+        cache = value;
+        Object.keys(observers).map(key => observers[key].render());
+      },
+    });
+  });
 
-      set (value) {
-        _value = value;
-        observers.forEach(fn => fn());
-      }
-    })
-  })
-  return obj;
-}
+  return target;
+};

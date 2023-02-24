@@ -1,8 +1,6 @@
 import { Store } from '@/core/Store.js';
 
-export const store = (component) => new Store({
-    component: component || {},
-
+export const store = new Store({
     state: {
         loading: false
     },

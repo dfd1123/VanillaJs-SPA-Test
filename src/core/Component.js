@@ -1,4 +1,5 @@
 import { updateElement } from "./componentUpdate";
+import {setCurrentObserver} from './observer'
 
 let uid = 0;
 
@@ -26,6 +27,7 @@ export default class Component {
   setEvent() {}; // 이벤트 세팅
 
   render() {
+    setCurrentObserver(this);
       const newNode = this.$target.cloneNode(true);
       newNode.innerHTML = this.template();
 
@@ -39,7 +41,7 @@ export default class Component {
       this.componentDidMount();
 
       this.setEvent();
-  
+      setCurrentObserver(null);
   }
 
   setState (newState) {

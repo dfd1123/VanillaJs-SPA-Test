@@ -20,7 +20,7 @@ class Service {
 
     get loadingModal(){
         const setStatus = (status = false) => {
-            store().commit('SET_LOADING', status);
+            store.commit('SET_LOADING', status);
         }
         return {open: () => setStatus(true), close: () => setStatus(false)}
     }

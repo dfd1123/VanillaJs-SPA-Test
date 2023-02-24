@@ -1,17 +1,17 @@
 import { store } from '@/store';
 import Component from './core/Component';
-import Loading from '@components/common/Loading';
+import AllLoading from '@components/common/Loading/AllLoading';
 import { RouterView } from './router';
 
 export default class App extends Component {
   componentDidMount(){
-    this.addComponent(Loading);
+    this.addComponent(AllLoading);
     this.addComponent(RouterView);
   }
 
   template() {
     return`
-        ${store(this).state.loading ? `<div Loading id="all-loading" dd="${store(this).state.loading}"></div>` : ''}
+        <div AllLoading></div>
         <div RouterView></div>
     `
   }
