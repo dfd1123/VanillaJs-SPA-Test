@@ -8,10 +8,10 @@ import services from '@/services';
 import route from '@/router';
 
 export default class SearchListWrap extends Component{
-    setup(){
+    data(){
         const {page = 1} = route.getQuerys();
-
-        this.$state = {
+        
+        return {
             initPage: Number(page),
             list: null,
             showList: [],
@@ -22,8 +22,10 @@ export default class SearchListWrap extends Component{
                 noTvSeries: false,
                 page: Number(page),
             }
-        };
+        }
+    }
 
+    create(){
         this.getList(this.$state.searchParams, true);
     }
 

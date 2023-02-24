@@ -4,9 +4,10 @@ import LabelItem from '@components/common/LabelItem/index';
 import Button from '@components/common/Button';
 
 export default class ListItem extends Component{
-    setup(){
+    data(){
         const {item = {}} = this.$props;
-        this.$state = {
+
+        return {
             topInfo: [
                 {label: 'name', value: item.name || '-'},
                 {label: 'aliases', value: (item.aliases || []).join(', ') || '-'},

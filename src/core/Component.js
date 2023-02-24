@@ -15,16 +15,24 @@ export default class Component {
     this.$props = $props;
     this.existChildComponent = false;
 
-    this.setup();
+    this.$state = this.data();
+    this.create();
     this.render();
   }
 
-  setup() {};
+  create() {}
+
+  data(){
+    return {};
+  }
+
   template() {
     throw new Error("추상 메소드는 꼭 오버라이딩 되어야 합니다.");
-  }; // 렌더링 할 HTML 반환
-  componentDidMount() {}; // 렌더링 직후 수행해야 할 로직
-  setEvent() {}; // 이벤트 세팅
+  }
+
+  componentDidMount() {}
+
+  setEvent() {}
 
   render() {
     setCurrentObserver(this);

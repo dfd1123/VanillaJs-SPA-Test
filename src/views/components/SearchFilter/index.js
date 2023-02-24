@@ -9,9 +9,9 @@ export default class SearchFilter extends Component{
         return `
             <div class="filter-area">
                 <div class="toggle-switch-cont">
-                    <div key="생존 인물만" ToggleButton></div>
-                    <div key="성별" ToggleButton></div>
-                    <div key="tvSeries 없음" ToggleButton></div>
+                    <div key="isAlive" ToggleButton></div>
+                    <div key="gender" ToggleButton></div>
+                    <div key="noTvSeries" ToggleButton></div>
                 </div>
                 <div Button class="btn-reset"></div>
             </div>
@@ -27,7 +27,7 @@ export default class SearchFilter extends Component{
             onChange: (e) => {
                 this.$props.handleSearchParamsChange({...searchParams, isAlive: e.target.checked});
             }
-        }, '생존 인물만');
+        }, 'isAlive');
 
         this.addComponent(ToggleButton, {
             value: searchParams.gender === 'Female',
@@ -35,15 +35,15 @@ export default class SearchFilter extends Component{
             onChange: (e) => {
                 this.$props.handleSearchParamsChange({...searchParams, gender: e.target.checked ? 'Female' : undefined});
             }
-        }, '성별');
+        }, 'gender');
 
         this.addComponent(ToggleButton, {
             value: !!searchParams.noTvSeries,
-            label: 'tvSeries 없음',
+            label: 'tvSeries 없음',
             onChange: (e) => {
                 this.$props.handleSearchParamsChange({...searchParams, noTvSeries: e.target.checked});
             }
-        }, 'tvSeries 없음');
+        }, 'noTvSeries');
 
         this.addComponent(Button, {
             text: '초기화',

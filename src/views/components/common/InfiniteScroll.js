@@ -3,7 +3,7 @@ import Component from "@/core/Component";
 export default class InfiniteScroll extends Component {
     #firstLoaded = false;
 
-    setup(){
+    create(){
         this.initIo();
     }
 

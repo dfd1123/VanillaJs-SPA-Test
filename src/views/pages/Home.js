@@ -3,10 +3,10 @@ import Title from "@components/Title/index.js";
 import SearchListWrap from "@components/SearchListWrap";
 
 export default class Home extends Component {
-    setup(){
-        this.$state = {
+    data(){
+        return {
             title: 'Practice',
-        }
+        };
     }
 
     template(){

@@ -2,8 +2,8 @@ import './style.scss';
 import Component from "@/core/Component";
 
 export default class ToggleButton extends Component {
-    setup(){
-        this.$state = {
+    data(){
+        return {
             checked: Boolean(this.$props.value),
         }
     }

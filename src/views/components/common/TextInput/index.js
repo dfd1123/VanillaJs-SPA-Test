@@ -2,8 +2,8 @@ import "./style.scss";
 import Component from "@/core/Component";
 
 export default class TextInput extends Component {
-    setup(){
-        this.$state = {
+    data(){
+        return {
             text: this.$props.value,
         }
     }
