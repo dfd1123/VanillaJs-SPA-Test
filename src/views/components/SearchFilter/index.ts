@@ -24,24 +24,27 @@ export default class SearchFilter extends Component{
         this.addComponent(ToggleButton, {
             value: !!searchParams.isAlive,
             label: '생존 인물만',
-            onChange: (e) => {
-                this.$props.handleSearchParamsChange({...searchParams, isAlive: e.target.checked});
+            onChange: (e: Event) => {
+                const target = e.target as HTMLInputElement;
+                this.$props.handleSearchParamsChange({...searchParams, isAlive: target.checked});
             }
         }, 'isAlive');
 
         this.addComponent(ToggleButton, {
             value: searchParams.gender === 'Female',
             label: '여자',
-            onChange: (e) => {
-                this.$props.handleSearchParamsChange({...searchParams, gender: e.target.checked ? 'Female' : undefined});
+            onChange: (e: Event) => {
+                const target = e.target as HTMLInputElement;
+                this.$props.handleSearchParamsChange({...searchParams, gender: target.checked ? 'Female' : undefined});
             }
         }, 'gender');
 
         this.addComponent(ToggleButton, {
             value: !!searchParams.noTvSeries,
             label: 'tvSeries 없음',
-            onChange: (e) => {
-                this.$props.handleSearchParamsChange({...searchParams, noTvSeries: e.target.checked});
+            onChange: (e: Event) => {
+                const target = e.target as HTMLInputElement;
+                this.$props.handleSearchParamsChange({...searchParams, noTvSeries: target.checked});
             }
         }, 'noTvSeries');
 

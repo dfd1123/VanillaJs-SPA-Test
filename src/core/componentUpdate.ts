@@ -1,4 +1,4 @@
-function updateAttributes(oldNode, newNode) {
+function updateAttributes(oldNode: Element, newNode: Element) {
     for (const {name, value} of [ ...newNode.attributes ]) {
       if (value === oldNode.getAttribute(name)) {
         continue;
@@ -13,7 +13,7 @@ function updateAttributes(oldNode, newNode) {
     }
   }
   
-  export function updateElement (parent, newNode, oldNode) {
+  export function updateElement (parent: Element, newNode: Element, oldNode: Element) {
     if (!newNode && oldNode) return oldNode.remove();
     if (newNode && !oldNode) return parent.appendChild(newNode);
 
@@ -24,16 +24,15 @@ function updateAttributes(oldNode, newNode) {
     }
 
     if (newNode.nodeName !== oldNode.nodeName) {
-      const index = [ ...parent.childNodes ].indexOf(oldNode);
+      parent.insertBefore(newNode, oldNode);
       oldNode.remove();
-      parent.appendChild(newNode, index);
       return;
     }
     
     updateAttributes(oldNode, newNode);
   
-    const newChildren = [ ...newNode.childNodes ];
-    const oldChildren = [ ...oldNode.childNodes ];
+    const newChildren = [ ...newNode.childNodes ] as Element[];
+    const oldChildren = [ ...oldNode.childNodes ] as Element[];
     const maxLength = Math.max(newChildren.length, oldChildren.length);
     for (let i = 0; i < maxLength; i++) {
       updateElement(oldNode, newChildren[i], oldChildren[i]);

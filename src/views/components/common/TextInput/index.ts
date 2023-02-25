@@ -18,15 +18,15 @@ export default class TextInput extends Component {
     setEvent(){
         const {onInput, onChange, onEnter} = this.$props;
 
-        this.addEvent('input', 'input', (e) => {
+        this.addEvent('input', 'input', (e: KeyboardEvent) => {
             onInput && onInput(e);
         })
 
-        this.addEvent('change', 'input', (e) => {
+        this.addEvent('change', 'input', (e: KeyboardEvent) => {
             onChange && onChange(e);
         })
 
-        this.addEvent('keydown', 'input', (e) => {
+        this.addEvent('keydown', 'input', (e: KeyboardEvent) => {
             if(e.keyCode === 13){
                 onEnter && onEnter(e);
             }

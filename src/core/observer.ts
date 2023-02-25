@@ -1,13 +1,15 @@
-let currentObserver = null;
-export const setCurrentObserver = observer => {
+import Component from "./Component";
+
+let currentObserver: Component | null = null;
+export const setCurrentObserver = (observer: Component) => {
   currentObserver = observer;
 };
 
-export const observable = (target, isStore) => {
+export const observable = <T extends {}>(target: T, isStore = false): T => {
   Object.keys(target).forEach(key => {
-    let cache = target[key];
+    let cache: any = target[key as keyof typeof target];
 
-    const observers = {};
+    const observers: Record<string, Component> = {};
 
     Object.defineProperty(target, key, {
       get() {

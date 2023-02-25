@@ -13,8 +13,8 @@ export default class ToggleButton extends Component {
         
         return `
             ${Boolean(label) && `<span class="label">${label}</span>`}
-            <input type="checkbox" id="toggle-button-${this._uid}" ${this.$state.checked && 'checked'} />
-            <label for="toggle-button-${this._uid}" class="switch">
+            <input type="checkbox" id="toggle-button-${this.uid}" ${this.$state.checked && 'checked'} />
+            <label for="toggle-button-${this.uid}" class="switch">
                 <span class="on-off" />
             </label>
         `;

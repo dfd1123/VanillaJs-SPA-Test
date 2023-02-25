@@ -6,9 +6,20 @@ import InfiniteScroll from "@components/common/InfiniteScroll";
 import Loading from '@components/common/Loading';
 import services from '@/services';
 import route from '@/router';
+import { GetCharacterListParams, CharacterItem } from '@/services/CharacterService';
+
+type SearchParamsType = GetCharacterListParams & {noTvSeries: boolean};
+
+type StateType = {
+    initPage: number;
+    list: CharacterItem[] | null;
+    showList: CharacterItem[];
+    hasNext: boolean;
+    searchParams: SearchParamsType;
+}
 
 export default class SearchListWrap extends Component{
-    data(){
+    data(): StateType{
         const {page = 1} = route.getQuerys();
         
         return {
@@ -48,7 +59,7 @@ export default class SearchListWrap extends Component{
 
         this.addComponent(SearchFilter, {
             searchParams: this.$state.searchParams,
-            handleSearchParamsChange: (params) => this.handleSearchParamsChange(params),
+            handleSearchParamsChange: (params: SearchParamsType) => this.handleSearchParamsChange(params),
             resetList: () => this.resetList(),
         });
 
@@ -66,7 +77,7 @@ export default class SearchListWrap extends Component{
 
     }
 
-    async getList(params, more = false){
+    async getList(params: SearchParamsType, more = false){
         const {character, loadingModal} = services;
 
         const searchParams = more ? params : {...params, page: this.$state.initPage}
@@ -94,14 +105,14 @@ export default class SearchListWrap extends Component{
         this.getList({name: undefined, isAlive: false, noTvSeries: false}, false)
     }
 
-    hideItem(item) {
+    hideItem(item: CharacterItem) {
         this.setState({
             ...this.$state,
             showList: this.$state.showList.filter((info) => item.url !== info.url)
         })
     }
 
-    handleSearchParamsChange(searchParams){
+    handleSearchParamsChange(searchParams: SearchParamsType){
         this.getList(searchParams, false);
     }
 }

@@ -1,10 +1,11 @@
 import Component from '@/core/Component';
+import { RouteType, StateType } from '@/core/types';
 import NotFound from '@pages/NotFound';
 
 export class Route {
     #routes;
 
-    constructor(routes = []){
+    constructor(routes: RouteType[] = []){
         this.#routes = routes;
     }
 
@@ -12,10 +13,10 @@ export class Route {
         window.addEventListener("popstate", this.router);
 
         document.addEventListener("DOMContentLoaded", () => {
-            document.body.addEventListener("click", e => {
+            document.body.addEventListener("click", (e: any) => {
                 if (e.target.matches("[data-link]")) {
                     e.preventDefault();
-                    navigateTo(e.target.href);
+                    this.navigateTo(e.target.href);
                 }
 
             });
@@ -25,7 +26,7 @@ export class Route {
     }
 
     router(){
-        const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
+        const pathToRegex = (path: string) => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
         const potentialMatches = this.#routes.map(route => {
             return {
@@ -50,12 +51,14 @@ export class Route {
             return this.navigateTo(match.route.redirect);
         }
 
+        console.log(this.getParams(match));
+
         new match.route.view(document.querySelector('#router-view'));
     }
 
-    getParams(match) {
+    getParams(match: any) {
         const values = match.result.slice(1);
-        const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(result => result[1]);
+        const keys = (Array.from(match.route.path.matchAll(/:(\w+)/g)) as any[]).map(result => result[1]);
         
         return Object.fromEntries(keys.map((key, i) => {
             return [key, values[i]];
@@ -65,7 +68,7 @@ export class Route {
     getQuerys() {
         const queryString = window.location.search;
         const queryParameters = queryString.substring(1).split('&');
-        const queryParamsObject = {};
+        const queryParamsObject: {[key: string]: string} = {};
         
         for (let i = 0; i < queryParameters.length; i++) {
             const [key, value] = queryParameters[i].split('=');
@@ -75,7 +78,7 @@ export class Route {
         return queryParamsObject || {};
     }
 
-    navigateTo(url){
+    navigateTo(url: string){
         history.pushState(null, null, url);
         this.router();
     }

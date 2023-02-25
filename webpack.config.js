@@ -10,10 +10,10 @@ const webpackMode = process.env.NODE_ENV || 'development';
 module.exports = {
 	mode: webpackMode,
 	entry: {
-		main: './src/main.js',
+		main: './src/main.ts',
 	},
 	resolve: {
-        extensions: [".ts", ".js", ".jsx", ".tsx"],
+        extensions: [".ts", ".js"],
 		alias: {
             '@': path.resolve(__dirname, './src'),
 			'@components': path.resolve(__dirname, './src/views/components'),
@@ -53,12 +53,12 @@ module.exports = {
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.(ts|js)x?$/,
+				test: /\.(ts|js)?$/,
 				enforce: 'pre',
 				use: ['source-map-loader'],
 			},
 			{
-                test: /\.(ts|js)x?$/,
+                test: /\.(ts|js)?$/,
                 use: "ts-loader",
                 exclude: /node_modules/,
             },

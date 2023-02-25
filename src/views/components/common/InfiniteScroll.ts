@@ -1,7 +1,7 @@
 import Component from "@/core/Component";
 
 export default class InfiniteScroll extends Component {
-    #firstLoaded = false;
+    private firstLoaded = false;
 
     create(){
         this.initIo();
@@ -29,7 +29,7 @@ export default class InfiniteScroll extends Component {
                 (entries) => {
 
                   if (entries[0].isIntersecting) {
-                    this.#firstLoaded = true;
+                    this.firstLoaded = true;
                     this.moreLoad();
                   }
                 },
@@ -43,6 +43,6 @@ export default class InfiniteScroll extends Component {
     }
 
     moreLoad(){
-        if(this.#firstLoaded) this.$props.moreLoad();
+        if(this.firstLoaded) this.$props.moreLoad();
     }
 }

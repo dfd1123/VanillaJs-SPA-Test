@@ -20,15 +20,13 @@ export default class Home extends Component {
     }
 
     componentDidMount(){
-        const {title, list} = this.$state;
+        const {title} = this.$state;
 
         this.addComponent(Title, {
             text: title,
         });
 
-        this.addComponent(SearchListWrap, {
-            list,
-        });
+        this.addComponent(SearchListWrap);
     }
     
 }

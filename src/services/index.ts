@@ -2,18 +2,19 @@ import { store } from '@/store';
 import ApiConnection from "@/api/ApiConnection";
 import CommonApiHandler from "@/api/handlers/CommonApiHandler";
 import CharacterService from "./CharacterService";
+import { ApiHandlerType } from '@/api/types';
 
 class Service {
-    #apiHandler = {};
+    private apiHandler: Record<string, ApiHandlerType> = {};
 
     constructor(){
-        this.#apiHandler = {
+        this.apiHandler = {
             common: new CommonApiHandler(),
         };
     }
 
     get character(){
-        const api = new ApiConnection('https://www.anapioficeandfire.com/api', this.#apiHandler.common);
+        const api = new ApiConnection('https://www.anapioficeandfire.com/api', this.apiHandler.common);
         
         return new CharacterService(api);
     }

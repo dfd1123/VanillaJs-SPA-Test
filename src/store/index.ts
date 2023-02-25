@@ -1,4 +1,4 @@
-import { Store } from '@/core/Store.js';
+import { Store } from '@/core/Store';
 
 export const store = new Store({
     state: {
