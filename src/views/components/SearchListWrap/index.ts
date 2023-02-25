@@ -11,6 +11,7 @@ import {
   GetCharacterListParams,
   CharacterItem,
 } from '@/services/CharacterService';
+import NoData from '../common/NoData';
 
 type SearchParamsType = GetCharacterListParams & { noTvSeries: boolean };
 
@@ -49,16 +50,18 @@ export default class SearchListWrap extends Component {
             <div SearchFilter></div>
             ${
               this.$state.list
-                ? `
+                ? this.$state.list.length > 0
+                  ? `
                 <ul class="list-cont">
                     ${this.$state.showList
                       .map((item) => `<li ListItem key="${item.url}"></li>`)
                       .join('')}
                 </ul>
             `
-                : `
-                <div Loading></div>
+                  : `
+                <div NoData></div>
             `
+                : `<div Loading></div>`
             }
             <div InfiniteScroll></div>
         `;
@@ -66,6 +69,10 @@ export default class SearchListWrap extends Component {
 
   componentDidMount() {
     this.addComponent(Loading);
+
+    this.addComponent(NoData, {
+      text: '찾으시는 데이터가 없습니다.',
+    });
 
     this.addComponent(SearchFilter, {
       searchParams: this.$state.searchParams,
