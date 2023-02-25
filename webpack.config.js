@@ -22,6 +22,7 @@ module.exports = {
     },
 	output: {
 		path: path.resolve('./dist'),
+		publicPath: '/' ,
 		filename: '[name].min.js'
 	},
 	devServer: {
