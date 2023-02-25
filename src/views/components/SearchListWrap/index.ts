@@ -5,7 +5,7 @@ import SearchFilter from "@components/SearchFilter";
 import InfiniteScroll from "@components/common/InfiniteScroll";
 import Loading from '@components/common/Loading';
 import services from '@/services';
-import route from '@/router';
+import {getQuerys} from '@/core/Router';
 import { GetCharacterListParams, CharacterItem } from '@/services/CharacterService';
 
 type SearchParamsType = GetCharacterListParams & {noTvSeries: boolean};
@@ -20,7 +20,7 @@ type StateType = {
 
 export default class SearchListWrap extends Component{
     data(): StateType{
-        const {page = 1} = route.getQuerys();
+        const {page = 1} = getQuerys();
         
         return {
             initPage: Number(page),

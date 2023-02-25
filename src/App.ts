@@ -1,7 +1,6 @@
-import { store } from '@/store';
 import Component from './core/Component';
 import AllLoading from '@components/common/Loading/AllLoading';
-import { RouterView } from './router';
+import { RouterView } from '@/core/Router';
 
 export default class App extends Component {
   componentDidMount(){

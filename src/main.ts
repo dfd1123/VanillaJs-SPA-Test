@@ -1,6 +1,6 @@
 import "./style/style.scss";
-import {Route} from './router';
-import routes from './router/routes';
+import {Route} from '@/core/Router';
+import routes from './router';
 import App from "./App";
 
 new Route(routes).init();
