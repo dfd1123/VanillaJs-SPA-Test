@@ -3,15 +3,15 @@ import AllLoading from '@components/common/Loading/AllLoading';
 import { RouterView } from '@/core/Router';
 
 export default class App extends Component {
-  componentDidMount(){
+  componentDidMount() {
     this.addComponent(AllLoading);
     this.addComponent(RouterView);
   }
 
   template() {
-    return`
+    return `
         <div AllLoading></div>
         <div RouterView></div>
-    `
+    `;
   }
 }

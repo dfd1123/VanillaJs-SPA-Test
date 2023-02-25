@@ -6,16 +6,16 @@ function objectToQueryString(obj: object) {
   const keyValuePairs = [];
 
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      const value = encodeURIComponent(obj[key as keyof typeof obj]);
-      keyValuePairs.push(`${key}=${value}`);
-    }
+    const value = encodeURIComponent(obj[key as keyof typeof obj]);
+    keyValuePairs.push(`${key}=${value}`);
   }
 
   return keyValuePairs.join('&');
 }
 
-export default class ApiConnection<T extends ApiHandlerType = CommonApiHandler> {
+export default class ApiConnection<
+  T extends ApiHandlerType = CommonApiHandler
+> {
   #axios;
   #responseHandler;
 
@@ -25,12 +25,20 @@ export default class ApiConnection<T extends ApiHandlerType = CommonApiHandler> 
     this.#responseHandler = handler.response;
   }
 
-  get<T>(path: string, params?: object, config?: AxiosRequestConfig): Promise<T> {
+  get<T>(
+    path: string,
+    params?: object,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     const uri = `${path}?${objectToQueryString(params)}`;
-    return this.#responseHandler(this.#axios.get(path, {...config, params}));
+    return this.#responseHandler(this.#axios.get(path, { ...config, params }));
   }
 
-  post<T>(path: string, data?: object, config?: AxiosRequestConfig): Promise<T> {
+  post<T>(
+    path: string,
+    data?: object,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     return this.#responseHandler(this.#axios.post(path, data, config));
   }
 

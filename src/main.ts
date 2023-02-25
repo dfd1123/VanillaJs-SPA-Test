@@ -1,8 +1,8 @@
-import "./style/style.scss";
-import {Route} from '@/core/Router';
+import './style/style.scss';
+import { Route } from '@/core/Router';
 import routes from './router';
-import App from "./App";
+import App from './App';
 
 new Route(routes).init();
 
-new App(document.querySelector('#app')); 
+new App(document.querySelector('#app'));

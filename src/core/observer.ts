@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from './Component';
 
 let currentObserver: Component | null = null;
 export const setCurrentObserver = (observer: Component) => {
@@ -6,7 +6,7 @@ export const setCurrentObserver = (observer: Component) => {
 };
 
 export const observable = <T extends {}>(target: T, isStore = false): T => {
-  Object.keys(target).forEach(key => {
+  Object.keys(target).forEach((key) => {
     let cache: any = target[key as keyof typeof target];
 
     const observers: Record<string, Component> = {};
@@ -21,7 +21,9 @@ export const observable = <T extends {}>(target: T, isStore = false): T => {
       },
       set(value) {
         cache = value;
-        Object.keys(observers).map(obKey => observers[obKey].observeFunc(isStore ? key : ''));
+        Object.keys(observers).map((obKey) =>
+          observers[obKey].observeFunc(isStore ? key : '')
+        );
       },
     });
   });

@@ -1,5 +1,8 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -13,21 +16,21 @@ module.exports = {
 		main: './src/main.ts',
 	},
 	resolve: {
-        extensions: [".ts", ".js"],
+		extensions: [".ts", ".js"],
 		alias: {
-            '@': path.resolve(__dirname, './src'),
+			'@': path.resolve(__dirname, './src'),
 			'@components': path.resolve(__dirname, './src/views/components'),
 			'@pages': path.resolve(__dirname, './src/views/pages'),
-        },
-    },
+		},
+	},
 	output: {
 		path: path.resolve('./dist'),
-		publicPath: '/' ,
+		publicPath: '/',
 		filename: '[name].min.js'
 	},
 	devServer: {
 		// contentBase: path.join(__dirname, "./public"),
-		hot: true,  
+		hot: true,
 		port: 9000,
 		historyApiFallback: true,
 	},
@@ -48,7 +51,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test : /\.js$/,
+				test: /\.js$/,
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 			},
@@ -58,30 +61,30 @@ module.exports = {
 				use: ['source-map-loader'],
 			},
 			{
-                test: /\.(ts|js)?$/,
-                use: "ts-loader",
-                exclude: /node_modules/,
-            },
+				test: /\.(ts|js)?$/,
+				use: "ts-loader",
+				exclude: /node_modules/,
+			},
 			{
 				test: /\.(sa|sc|c)ss$/,
 				use: [
-				  MiniCssExtractPlugin.loader,
-				  {
-					loader: "css-loader",
-					options: {
-					  sourceMap: true,
-					  importLoaders: 1,
+					MiniCssExtractPlugin.loader,
+					{
+						loader: "css-loader",
+						options: {
+							sourceMap: true,
+							importLoaders: 1,
+						},
 					},
-				  },
-				  {
-					loader: "sass-loader",
-					options: {
-					  additionalData: `@import "@/style/var.scss";`,
-					  sourceMap: true,
+					{
+						loader: "sass-loader",
+						options: {
+							additionalData: `@import "@/style/var.scss";`,
+							sourceMap: true,
+						},
 					},
-				  },
 				],
-			  },
+			},
 		]
 	},
 	plugins: [
@@ -93,10 +96,10 @@ module.exports = {
 			} : false
 		}),
 		new MiniCssExtractPlugin({
-		  filename: "styles.css",
+			filename: "styles.css",
 		}),
 		new CleanWebpackPlugin({
 			cleanAfterEveryBuildPatterns: ["dist", "public"],
-		  }),
+		}),
 	]
 };
