@@ -1,4 +1,5 @@
 import './style.scss';
+import {store} from '@/store';
 import Component from "@/core/Component";
 import ListItem from "@components/ListItem";
 import SearchFilter from "@components/SearchFilter";
@@ -72,12 +73,16 @@ export default class SearchListWrap extends Component{
 
         this.addComponent(InfiniteScroll, {
             stop: !this.$state.hasNext && this.$state.list,
-            moreLoad: () => this.getList({...this.$state.searchParams, page: this.$state.searchParams.page + 1}, true),
+            moreLoad: () => {
+                this.getList({...this.$state.searchParams, page: this.$state.searchParams.page + 1}, true);
+            }
         })
 
     }
 
     async getList(params: SearchParamsType, more = false){
+        if(store.state.loading) return;
+        
         const {character, loadingModal} = services;
 
         const searchParams = more ? params : {...params, page: this.$state.initPage}
