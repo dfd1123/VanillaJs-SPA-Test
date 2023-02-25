@@ -1,13 +1,16 @@
 import { updateElement } from "./componentUpdate";
-import {setCurrentObserver} from './observer'
+import {setCurrentObserver, observable} from './observer'
 
 let uid = 0;
 
 export default class Component {
+  $store;
+  storeUseKeys = [];
   $state;
   $props;
   $target;
   components = [];
+  reqAnimationId = 0;
 
   constructor($target, $props = {}) {
     this._uid = uid++;
@@ -15,7 +18,7 @@ export default class Component {
     this.$props = $props;
     this.existChildComponent = false;
 
-    this.$state = this.data();
+    this.$state = observable(this.data());
     this.create();
     this.render();
   }
@@ -52,9 +55,22 @@ export default class Component {
       setCurrentObserver(null);
   }
 
+  useStore(store, key){
+    this.$store = store;
+    this.storeUseKeys.push(key);
+  }
+
+  observeFunc(key){
+    if(!key || this.storeUseKeys.includes(key)){
+      cancelAnimationFrame(this.reqAnimationId);
+      this.reqAnimationId = requestAnimationFrame(this.render.bind(this));
+    }
+  }
+
   setState (newState) {
-    this.$state = { ...this.$state, ...newState };
-    this.render(); // state가 변경되면 재렌더링 수행
+    Object.keys(newState).forEach(key => {
+      this.$state[key] = newState[key];
+    })
   }
 
   addComponent(compnentClass, props, key = -1) {

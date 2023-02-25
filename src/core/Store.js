@@ -7,7 +7,7 @@ export class Store {
     state = {};
 
     constructor ({ state = {}, mutations, actions }) {
-        this.#state = observable(state);
+        this.#state = observable(state, true);
         this.#mutations = mutations;
         this.#actions = actions;
         
