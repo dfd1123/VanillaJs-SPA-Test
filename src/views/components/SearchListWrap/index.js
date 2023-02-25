@@ -60,7 +60,7 @@ export default class SearchListWrap extends Component{
         });
 
         this.addComponent(InfiniteScroll, {
-            stop: this.$state.hasNext,
+            stop: !this.$state.hasNext && this.$state.list,
             moreLoad: () => this.getList({...this.$state.searchParams, page: this.$state.searchParams.page + 1}, true),
         })
 
@@ -83,7 +83,7 @@ export default class SearchListWrap extends Component{
 
         this.setState({
             ...this.$state,
-            hasNext: more && this.$state.showList === newList,
+            hasNext: newList.length > 0,
             list: newList,
             showList: newList,
             searchParams,
