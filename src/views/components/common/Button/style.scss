@@ -5,5 +5,14 @@
         color: white;
         border: transparent;
         background: map-get($indigoVivid, 500);
+        transition: background 0.2s;
+
+        &:hover{
+            background: map-get($indigoNatural, 200);
+        }
+
+        &:active{
+            background: map-get($indigoNatural, 600);
+        }
     }
 }
