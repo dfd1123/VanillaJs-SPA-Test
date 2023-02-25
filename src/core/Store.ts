@@ -1,6 +1,6 @@
 import { observable } from './observer';
 
-export class Store<S extends Record<string, any> = {}> {
+export class Store<S extends Record<string, any> = object> {
   public state: S;
   private mutations: { [key: string]: (state: S, payload: any) => void };
 

@@ -27,7 +27,9 @@ export default class Component<
     this.render();
   }
 
-  create(): void {}
+  create(): void {
+    // create method
+  }
 
   data() {
     return {};
@@ -37,11 +39,17 @@ export default class Component<
     return '';
   }
 
-  componentDidMount(): void {}
+  componentDidMount(): void {
+    // componentDidMount
+  }
 
-  updateElement(parent: Element, oldNode: Element, newNode: Element) {}
+  updateElement(parent: Element, oldNode: Element, newNode: Element) {
+    // updateElement
+  }
 
-  setEvent(): void {}
+  setEvent(): void {
+    // setEvent
+  }
 
   render() {
     setCurrentObserver(this);

@@ -5,7 +5,7 @@ export const setCurrentObserver = (observer: Component) => {
   currentObserver = observer;
 };
 
-export const observable = <T extends {}>(target: T, isStore = false): T => {
+export const observable = <T extends object>(target: T, isStore = false): T => {
   Object.keys(target).forEach((key) => {
     let cache: any = target[key as keyof typeof target];
 
