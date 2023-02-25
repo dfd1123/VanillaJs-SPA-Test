@@ -1,5 +1,5 @@
 import Component from '@/core/Component';
-import NotFoundError from '@pages/NotFoundError';
+import NotFound from '@pages/NotFound';
 
 export class Route {
     #routes;
@@ -36,18 +36,16 @@ export class Route {
 
         let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
 
-        // console.log(math.route);
-
         if (!match) {
             match = {
                 route: {
                     path: '/404',
-                    view: NotFoundError
+                    view: NotFound
                 },
                 result: [location.pathname]
             }
 
-            // return this.navigateTo(match.route.path);
+            if(location.pathname !== '/404') return this.navigateTo(match.route.path);
         }else if(match.route.redirect){
             return this.navigateTo(match.route.redirect);
         }
