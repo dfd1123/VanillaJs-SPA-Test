@@ -1,5 +1,4 @@
 let currentObserver = null;
-// 바뀐 부분
 export const setCurrentObserver = observer => {
   currentObserver = observer;
 };
@@ -12,7 +11,6 @@ export const observable = (target, isStore) => {
 
     Object.defineProperty(target, key, {
       get() {
-        // 바뀐 부분
         if (currentObserver) {
           observers[currentObserver.constructor.name] = currentObserver;
         }
