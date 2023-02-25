@@ -1,3 +1,4 @@
+import '@/style/pages/Home.scss';
 import Component from "@/core/Component";
 import Title from "@components/Title/index.js";
 import SearchListWrap from "@components/SearchListWrap";
@@ -11,7 +12,7 @@ export default class Home extends Component {
 
     template(){
         return `
-            <div>
+            <div Home>
                 <div Title></div>
                 <div SearchListWrap></div>
             </div>
