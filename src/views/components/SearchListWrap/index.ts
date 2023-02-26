@@ -42,6 +42,7 @@ export default class SearchListWrap extends Component {
   }
 
   create() {
+    this.useStore(store, 'loading');
     this.getList(this.$state.searchParams, true);
   }
 
@@ -93,7 +94,7 @@ export default class SearchListWrap extends Component {
     });
 
     this.addComponent(InfiniteScroll, {
-      stop: !this.$state.hasNext && this.$state.list,
+      stop: !this.$state.hasNext || !this.$state.list,
       moreLoad: () => {
         this.getList(
           {
@@ -107,7 +108,9 @@ export default class SearchListWrap extends Component {
   }
 
   async getList(params: SearchParamsType, more = false) {
-    if (store.state.loading) return;
+    if (this.$store.state.loading) return;
+
+    // console.log(this.$state.searchParams.page);
 
     const { character, loadingModal } = services;
 
@@ -121,6 +124,7 @@ export default class SearchListWrap extends Component {
       ...item,
       tvSeries: item.tvSeries.filter((tvs) => !!tvs),
     }));
+
     let newList = more ? [...this.$state.showList, ...list] : list;
     newList = newList.filter((item) =>
       searchParams.noTvSeries ? item.tvSeries.length === 0 : true

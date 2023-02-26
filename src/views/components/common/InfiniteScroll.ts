@@ -34,7 +34,7 @@ export default class InfiniteScroll extends Component {
         },
         {
           root: null,
-          rootMargin: '500px 0px',
+          rootMargin: '100px 0px',
           threshold: [1.0],
         }
       );

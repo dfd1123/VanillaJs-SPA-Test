@@ -1,5 +1,5 @@
 import Component from '@/core/Component';
-import { RouteType, StateType } from '@/core/types';
+import { RouteType } from '@/core/types';
 import NotFound from '@pages/NotFound';
 
 export class Route {
@@ -55,8 +55,6 @@ export class Route {
     } else if (match.route.redirect) {
       return this.navigateTo(match.route.redirect);
     }
-
-    console.log(this.getParams(match));
 
     new match.route.view(document.querySelector('#router-view'));
   }
