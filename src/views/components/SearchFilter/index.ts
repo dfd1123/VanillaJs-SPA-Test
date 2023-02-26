@@ -8,11 +8,11 @@ export default class SearchFilter extends Component {
     return `
             <div class="filter-area">
                 <div class="toggle-switch-cont">
-                    <div key="isAlive" ToggleButton></div>
-                    <div key="gender" ToggleButton></div>
-                    <div key="noTvSeries" ToggleButton></div>
+                    <div key="isAlive" data-component="ToggleButton"></div>
+                    <div key="gender" data-component="ToggleButton"></div>
+                    <div key="noTvSeries" data-component="ToggleButton"></div>
                 </div>
-                <div Button class="btn-reset"></div>
+                <div data-component="Button" class="btn-reset"></div>
             </div>
         `;
   }

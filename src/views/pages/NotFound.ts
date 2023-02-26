@@ -4,7 +4,7 @@ import Component from '@/core/Component';
 export default class NotFound extends Component {
   template() {
     return `
-            <div NotFound>
+            <div data-component="NotFound" NotFound>
                 <h1>404 : Not Found Page</h1>
             </div>
         `;

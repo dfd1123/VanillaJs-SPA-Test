@@ -1,12 +1,12 @@
-[SearchListWrap]{
+[data-component="SearchListWrap"]{
 
     >.list-cont{
-        [ListItem]{
+        [data-component="ListItem"]{
             margin-bottom: 20px;
         }
     }
 
-    [Loading]{
+    [data-component="Loading"]{
         // position: fixed;
         // left:0;
         // top:0;

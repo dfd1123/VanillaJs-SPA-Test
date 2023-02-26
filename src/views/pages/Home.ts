@@ -12,9 +12,9 @@ export default class Home extends Component {
 
   template() {
     return `
-            <div Home>
-                <div Title></div>
-                <div SearchListWrap></div>
+            <div data-component="Home">
+                <div data-component="Title"></div>
+                <div data-component="SearchListWrap"></div>
             </div>
         `;
   }

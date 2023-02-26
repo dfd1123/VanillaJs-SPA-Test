@@ -14,7 +14,11 @@ export default class AllLoading extends Component {
 
   template() {
     return `
-            ${this.$store.state.loading ? '<div Loading></div>' : ''}
+            ${
+              this.$store.state.loading
+                ? '<div data-component="Loading"></div>'
+                : ''
+            }
         `;
   }
 }

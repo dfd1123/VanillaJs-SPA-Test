@@ -26,20 +26,24 @@ export default class ListItem extends Component {
                 <div class="top-info">
                     ${this.$state.topInfo
                       .map(
-                        (info) => `<div key="${info.label}" LabelItem></div>`
+                        (info) =>
+                          `<div key="${info.label}" data-component="LabelItem"></div>`
                       )
                       .join('')}
                 </div>
-                <b key="${this.$state.title.label}" LabelItem class="title"></b>
+                <b key="${
+                  this.$state.title.label
+                }" data-component="LabelItem" class="title"></b>
                 <div class="bottom-info">
                     ${this.$state.bottomInfo
                       .map(
-                        (info) => `<div key="${info.label}" LabelItem></div>`
+                        (info) =>
+                          `<div key="${info.label}" data-component="LabelItem"></div>`
                       )
                       .join('')}
                 </div>
             </div>
-            <div Button class="btn-delete"></div>
+            <div data-component="Button" class="btn-delete"></div>
         `;
   }
 

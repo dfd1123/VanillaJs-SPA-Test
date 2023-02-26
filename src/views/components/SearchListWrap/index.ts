@@ -48,23 +48,26 @@ export default class SearchListWrap extends Component {
 
   template() {
     return `
-            <div SearchFilter></div>
+            <div data-component="SearchFilter"></div>
             ${
               this.$state.list
-                ? this.$state.list.length > 0
+                ? this.$state.showList.length > 0
                   ? `
                 <ul class="list-cont">
                     ${this.$state.showList
-                      .map((item) => `<li ListItem key="${item.url}"></li>`)
+                      .map(
+                        (item) =>
+                          `<li data-component="ListItem" key="${item.url}"></li>`
+                      )
                       .join('')}
                 </ul>
             `
                   : `
-                <div NoData></div>
+                <div data-component="NoData"></div>
             `
-                : `<div Loading></div>`
+                : `<div data-component="Loading"></div>`
             }
-            <div InfiniteScroll></div>
+            <div data-component="InfiniteScroll"></div>
         `;
   }
 
@@ -94,7 +97,8 @@ export default class SearchListWrap extends Component {
     });
 
     this.addComponent(InfiniteScroll, {
-      stop: !this.$state.hasNext || !this.$state.list,
+      list: this.$state.list,
+      hasNext: this.$state.hasNext,
       moreLoad: () => {
         this.getList(
           {
@@ -109,8 +113,6 @@ export default class SearchListWrap extends Component {
 
   async getList(params: SearchParamsType, more = false) {
     if (this.$store.state.loading) return;
-
-    // console.log(this.$state.searchParams.page);
 
     const { character, loadingModal } = services;
 

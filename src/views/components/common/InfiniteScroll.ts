@@ -42,6 +42,6 @@ export default class InfiniteScroll extends Component {
   }
 
   moreLoad() {
-    if (this.firstLoaded) this.$props.moreLoad();
+    if (!this.$props.list || !this.$props.hasNext) this.$props.moreLoad();
   }
 }

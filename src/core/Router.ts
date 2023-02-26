@@ -3,14 +3,14 @@ import { RouteType } from '@/core/types';
 import NotFound from '@pages/NotFound';
 
 export class Route {
-  #routes;
+  routes;
 
   constructor(routes: RouteType[] = []) {
-    this.#routes = routes;
+    this.routes = routes;
   }
 
   init() {
-    window.addEventListener('popstate', this.router);
+    window.addEventListener('popstate', this.router.bind(this));
 
     document.addEventListener('DOMContentLoaded', () => {
       document.body.addEventListener('click', (e: any) => {
@@ -30,7 +30,7 @@ export class Route {
         '^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$'
       );
 
-    const potentialMatches = this.#routes.map((route) => {
+    const potentialMatches = this.routes.map((route) => {
       return {
         route,
         result: location.pathname.match(pathToRegex(route.path)),
@@ -55,7 +55,7 @@ export class Route {
     } else if (match.route.redirect) {
       return this.navigateTo(match.route.redirect);
     }
-
+    document.querySelector('#router-view').innerHTML = '';
     new match.route.view(document.querySelector('#router-view'));
   }
 
@@ -86,7 +86,7 @@ export class Route {
   }
 
   navigateTo(url: string) {
-    history.pushState(null, null, url);
+    history.pushState(null, '', url);
     this.router();
   }
 }
@@ -102,3 +102,12 @@ export class RouterView extends Component {
 const { navigateTo, getQuerys, getParams } = new Route();
 
 export { navigateTo, getQuerys, getParams };
+
+export class Link extends Component {
+  template() {
+    const { href = '', text = '' } = this.$props;
+    return `
+        <a data-link href="${href}">${text}</a>
+     `;
+  }
+}

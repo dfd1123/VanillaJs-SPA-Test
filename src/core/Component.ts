@@ -99,7 +99,9 @@ export default class Component<
         'The first argument of addComponent should be passed the component class'
       );
 
-    const selectors = this.$target.querySelectorAll(`[${componentClass.name}]`);
+    const selectors = this.$target.querySelectorAll(
+      `[data-component="${componentClass.name}"]`
+    );
     const el =
       key !== ''
         ? Array.from(selectors).find(

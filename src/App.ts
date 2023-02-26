@@ -10,8 +10,8 @@ export default class App extends Component {
 
   template() {
     return `
-        <div AllLoading></div>
-        <div RouterView></div>
+        <div data-component="AllLoading"></div>
+        <div data-component="RouterView"></div>
     `;
   }
 }
