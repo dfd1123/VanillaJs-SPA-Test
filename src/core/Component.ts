@@ -43,6 +43,7 @@ export default class Component<
     // componentDidMount
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateElement(parent: Element, oldNode: Element, newNode: Element) {
     // updateElement
   }
