@@ -7,23 +7,21 @@ export const setCurrentObserver = (observer: Component) => {
 
 export const observable = <T extends object>(target: T, isStore = false): T => {
   Object.keys(target).forEach((key) => {
-    let cache: any = target[key as keyof typeof target];
+    let cache = target[key as keyof typeof target];
 
-    const observers: Record<string, Component> = {};
+    let component: Component | null = null;
 
     Object.defineProperty(target, key, {
       get() {
         if (currentObserver) {
-          observers[currentObserver.constructor.name] = currentObserver;
+          component = currentObserver;
         }
 
         return cache;
       },
       set(value) {
         cache = value;
-        Object.keys(observers).map((obKey) =>
-          observers[obKey].observeFunc(isStore ? key : '')
-        );
+        component && component.observeFunc(isStore ? key : '')
       },
     });
   });
